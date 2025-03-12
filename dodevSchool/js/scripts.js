@@ -1,39 +1,70 @@
 ////////////////////////////////////////////////////////////////////////
 ////////////////// FAÇA O SEU CÓDIGO AQUI \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 ////////////////////////////////////////////////////////////////////////
+let arrayAlunos = []
 
 class Aluno {
-  
-}
-
-// Array
-
-
-//funções projeto
-
-function CadastrarAluno() {
-  
-}
-
-function OrdenarPorNota() {
- 
-}
-
-function OrdenarPorIdade() {
+  Nome
+  Idade
+  Nota
+  constructor(nome, idade, nota) {
+    this.Nome = nome
+    this.Idade = idade
+    this.Nota = nota
+  }
 
 }
 
-function OrdenarPorNome() {
-
+function CadastrarAluno(nome, idade, nota, array) {
+  let objetoAluno = new Aluno(nome, idade, nota);
+  if (!array.some(x => x.Nome == nome)) {
+    array.push(objetoAluno);
+    return objetoAluno;
+  } else {
+    return "Aluno já cadastrado!";
+  }
 }
 
-function CalcularMedia(){
-
+function OrdenarPorNota(array) {
+  array.sort((a, b) => a.nota - b.nota)
+  return array
 }
 
-////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////
+function OrdenarPorIdade(array) {
+  array.sort((a, b) => b.idade - a.idade)
+  return array
+}
+
+function OrdenarPorNome(array) {
+  array.sort((a, b) => {
+    const nomeA = a.Nome.toUpperCase()
+    const nomeB = b.Nome.toUpperCase()
+
+    if (nomeA < nomeB) {
+      return -1
+    }
+    if (nomeA > nomeB) {
+      return 1
+    }
+    return 0
+  })
+  return array
+}
+
+function CalcularMedia(array) {
+  if (array.length === 0) {
+    return 0; // Retorna 0 se o array de alunos
+  }
+  let somaNotas = 0;
+
+  array.forEach((aluno) => {
+    somaNotas += Number(aluno.Nota)
+
+  })
+
+  const media = somaNotas / array.length;
+  return media;
+}
 
 function ExcluirAluno(array, nome) {
   let index
@@ -101,7 +132,7 @@ const saveAluno = (nome, idade, nota, done = 0, save = 1) => {
   // Utilizando dados da localStorage
 
   alunoList.appendChild(aluno);
-  
+
 
   const media = document.querySelector("#media");
   media.textContent = CalcularMedia(arrayAlunos).toFixed(2)
@@ -226,13 +257,13 @@ filterBtn.addEventListener("change", (e) => {
   filterAlunos(filterValue);
 });
 
-// Local Storage
+//Local Storage
 
-// const loadAlunos = () => {
+const loadAlunos = () => {
 
-//   arrayAlunos.forEach((aluno) => {
-//     saveAluno(aluno.Nome, aluno.Idade, aluno.Nota, 0);
-//   });
-// };
+  arrayAlunos.forEach((aluno) => {
+    saveAluno(aluno.Nome, aluno.Idade, aluno.Nota, 0);
+  });
+};
 
-// loadAlunos();
+loadAlunos();
